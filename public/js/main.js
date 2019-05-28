@@ -40,6 +40,7 @@ socket.on('log',function(array){
 	console.log.apply(console,array);
 });
 
+
 /* What to do when the server says someone joined room */
 
 socket.on('join_room_response', function(payload){
@@ -48,15 +49,18 @@ socket.on('join_room_response', function(payload){
 		return;
 	}
 
+
 	/* If we join room, ignore notification */
 
 	if(payload.socket_id == socket.id){
 		return;
 	}
 
+
 	/* If someone joins room, add new row to lobby table */
 
 	var dom_elements = $('.socket_'+payload.socket_id);
+
 
 	/* If no previous entry for this username */
 
@@ -88,9 +92,11 @@ socket.on('join_room_response', function(payload){
 		nodeC.slideDown(1000);
 	}
 	else{
+		var buttonC = makeInviteButton();
 		$('.socket_'+payload.socket_id+' button').replaceWith(buttonC);
 		dom_elements.slideDown(1000);
 	}
+
 
 	/* If someone joins room, manage message that new player has joined */
 
@@ -110,23 +116,27 @@ socket.on('player_disconnected', function(payload){
 		return;
 	}
 
+
 	/* If we leave room, ignore notification */
 
-	if(payload.socket_id == socket_id){
+	if(payload.socket_id == socket.id){
 		return;
 	}
+
 
 	/* If someone leaves room, animate out their content */
 
 	var dom_elements = $('.socket_'+payload.socket_id);
 
-	/* If no previous entry for this username */
+
+	/* If entry exists */
 
 	if(dom_elements.length != 0){
 		dom_elements.slideUp(1000);
 	}
 
-	/* If someone joins room, manage message that new player has left */
+
+	/* If someone leaves room, manage message that player has left */
 
 	var newHTML = '<p>'+payload.username+' left the room.</p>';
 	var newNode = $(newHTML);

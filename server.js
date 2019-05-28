@@ -158,14 +158,14 @@ io.sockets.on('connection', function(socket){
 							membership: numClients
 							};
 			socket.emit('join_room_response',success_data);
-		};
+		}
 
 		log('join_room success');
 	});
 
 
 
-	socket.on('disconnect', function(socket){
+	socket.on('disconnect', function(){
 		log('Client disconnected '+JSON.stringify(players[socket.id]));
 
 		if('undefined' !== typeof players[socket.id] && players[socket.id]){
