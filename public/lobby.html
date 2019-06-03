@@ -12,7 +12,7 @@
 
     <style>
       body {
-        background-color:rgb(220,180,70);
+        background-color: rgb(190,150,50);
       }
     </style>
   </head>
@@ -37,22 +37,11 @@
       <div class='row'>
         <div class='col text-left'>
           <h2>Messages</h2>
-          <div id='messages'>
-          </div>
-        </div>
-      </div>
-
-      <div class='row'>
-        <div class='col text-left'>
-          <form onsubmit='send_message(); return false;'>
-
-            <div class='form-group'>
+          <div id='messages'></div>
+          <form class='form-inline' onsubmit='send_message(); return false;'>
               <label for='send_message_holder' class='col-form-label sr-only'>Enter your chat message</label>
-              <input class='form-control' type='text' value='' id='send_message_holder' placeholder='Enter your chat message' autocomplete='off'/>
-            </div>
-
-            <button type='submit' class='btn btn-dark'>Send</button>
-
+              <input class='form-control mx-auto w-100' type='text' value='' id='send_message_holder' placeholder='Enter your chat message' autocomplete='off'/>
+              <button type='submit' class='btn btn-dark'>Send</button>
           </form>
         </div>
       </div>
