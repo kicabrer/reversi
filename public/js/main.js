@@ -284,6 +284,7 @@ var old_board = [
 ]
 
 var my_color = ' ';
+var interval_timer;
 
 socket.on('game_update',function(payload){
 
@@ -304,11 +305,11 @@ socket.on('game_update',function(payload){
 	}
 
 	/* Update my color */
-	if(socket.id == payload.game.player_white.socket){
-		my_color = 'white';
+	if(socket.id == payload.game.player_ruby.socket){
+		my_color = 'ruby';
 	}
-	else if(socket.id == payload.game.player_black.socket){
-		my_color = 'black';
+	else if(socket.id == payload.game.player_denim.socket){
+		my_color = 'denim';
 	}
 	else{
 		/* Something weird is going on, like 3 people playing at once */
@@ -317,19 +318,40 @@ socket.on('game_update',function(payload){
 		return;
 	}
 
-	$('#my_color').html('<h3 id="my_color">Player '+username+' is playing '+my_color+' tokens.</h3>');
+	$('#my_color').html('<h3 id="my_color">You are playing '+my_color+' tokens.</h3>');
+	$('#my_color').append('<h3>'+payload.game.whose_turn+'\'s turn. Elapsed time <span id="elapsed"></span></h3>');
+
+	clearInterval(interval_timer);
+	interval_timer = setInterval(function(last_time){
+		return function(){
+
+			//Update the UI for interval_timer
+			var d = new Date();
+			var elapsedmilli = d.getTime() - last_time;
+			var minutes = Math.floor(elapsedmilli / (60 * 1000));
+			var seconds = Math.floor((elapsedmilli % (60 * 1000))/ 1000);
+
+			if(seconds < 10){
+				$('#elapsed').html(minutes+':0'+seconds);
+			}
+			else{
+				$('#elapsed').html(minutes+':'+seconds);
+			}
+		}
+	}(payload.game.last_move_time)
+		,1000)
 
 	/* Animate changes to the board */
-	var blacksum = 0;
-	var whitesum = 0;
+	var denimsum = 0;
+	var rubysum = 0;
 	var row,column;
 	for(row = 0; row < 8; row++){
 		for(column = 0; column < 8; column++){
-			if(board[row][column] == 'b'){
-				blacksum++;
+			if(board[row][column] == 'd'){
+				denimsum++;
 			}
-			if(board[row][column] == 'w'){
-				whitesum++;
+			if(board[row][column] == 'r'){
+				rubysum++;
 			}
 
 			/* If a board space has changed */
@@ -337,37 +359,41 @@ socket.on('game_update',function(payload){
 				if(old_board[row][column] == '?' && board[row][column] == ' '){
 					$('#'+row+'_'+column).html('<img src="assets/images/empty.gif" alt="empty square"/>');
 				}
-				else if(old_board[row][column] == '?' && board[row][column] == 'w'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-white.gif" alt="white square"/>');
+				else if(old_board[row][column] == '?' && board[row][column] == 'r'){
+					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-ruby.gif" alt="ruby token"/>');
 				}
-				else if(old_board[row][column] == '?' && board[row][column] == 'b'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-black.gif" alt="black square"/>');
+				else if(old_board[row][column] == '?' && board[row][column] == 'd'){
+					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-denim.gif" alt="denim token"/>');
 				}
-				else if(old_board[row][column] == ' ' && board[row][column] == 'w'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-white.gif" alt="white square"/>');
+				else if(old_board[row][column] == ' ' && board[row][column] == 'r'){
+					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-ruby.gif" alt="ruby token"/>');
 				}
-				else if(old_board[row][column] == ' ' && board[row][column] == 'b'){
-					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-black.gif" alt="black square"/>');
+				else if(old_board[row][column] == ' ' && board[row][column] == 'd'){
+					$('#'+row+'_'+column).html('<img src="assets/images/empty-to-denim.gif" alt="denim token"/>');
 				}
-				else if(old_board[row][column] == 'w' && board[row][column] == ' '){
-					$('#'+row+'_'+column).html('<img src="assets/images/white-to-empty.gif" alt="empty square"/>');
+				else if(old_board[row][column] == 'r' && board[row][column] == ' '){
+					$('#'+row+'_'+column).html('<img src="assets/images/ruby-to-empty.gif" alt="empty square"/>');
 				}
-				else if(old_board[row][column] == 'b' && board[row][column] == ' '){
-					$('#'+row+'_'+column).html('<img src="assets/images/black-to-empty.gif" alt="empty square"/>');
+				else if(old_board[row][column] == 'd' && board[row][column] == ' '){
+					$('#'+row+'_'+column).html('<img src="assets/images/denim-to-empty.gif" alt="empty square"/>');
 				}
-				else if(old_board[row][column] == 'w' && board[row][column] == 'b'){
-					$('#'+row+'_'+column).html('<img src="assets/images/white-to-black.gif" alt="black square"/>');
+				else if(old_board[row][column] == 'r' && board[row][column] == 'd'){
+					$('#'+row+'_'+column).html('<img src="assets/images/ruby-to-denim.gif" alt="denim token"/>');
 				}
-				else if(old_board[row][column] == 'b' && board[row][column] == 'w'){
-					$('#'+row+'_'+column).html('<img src="assets/images/black-to-white.gif" alt="white square"/>');
+				else if(old_board[row][column] == 'd' && board[row][column] == 'r'){
+					$('#'+row+'_'+column).html('<img src="assets/images/denim-to-ruby.gif" alt="ruby token"/>');
 				}
 				else{
 					$('#'+row+'_'+column).html('<img src="assets/images/error.gif" alt="error"/>');
 				}
+			}
+			
+			/* Set up interactivity */
+			$('#'+row+'_'+column).off('click');
+			$('#'+row+'_'+column).removeClass('hovered_over');
 
-				/* Set up interactivity */
-				$('#'+row+'_'+column).off('click');
-				if(board[row][column] == ' '){
+			if(payload.game.whose_turn === my_color){
+				if(payload.game.legal_moves[row][column] === my_color.substr(0,1)){
 					$('#'+row+'_'+column).addClass('hovered_over');
 					$('#'+row+'_'+column).click(function(r,c){
 						return function(){
@@ -380,14 +406,11 @@ socket.on('game_update',function(payload){
 						};
 					}(row,column));
 				}
-				else{
-					$('#'+row+'_'+column).removeClass('hovered_over');
-				}
 			}
 		}
 	}
-	$('#blacksum').html(blacksum);
-	$('#whitesum').html(whitesum);
+	$('#denimsum').html(denimsum);
+	$('#rubysum').html(rubysum);
 
 	old_board = board;
 });
@@ -415,6 +438,6 @@ socket.on('game_over',function(payload){
 	}
 
 	/* Jump to a new page */
-	$('#game_over').html('<h1>Game Over</h1><h2>'+payload.who_won+' won!</h2>');
-	$('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-light" role="button" aria-pressed="true">Return to Lobby</a>');
+	$('#game_over').html('<h1>Game Over</h1><h2>Winner: '+payload.who_won+'</h2>');
+	$('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-lg btn-light" role="button" aria-pressed="true">Return to Lobby</a>');
 });
