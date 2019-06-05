@@ -828,10 +828,10 @@ function send_game_update(socket, game_id, message){
 			if(games[game_id].legal_moves[row][column] != ' '){
 				count++;
 			}
-			if(games[game_id].legal_moves[row][column] != 'd'){
+			if(games[game_id].board[row][column] === 'd'){
 				denim++;
 			}
-			if(games[game_id].legal_moves[row][column] != 'r'){
+			if(games[game_id].board[row][column] === 'r'){
 				ruby++;
 			}
 		}
