@@ -1,54 +1,230 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
 
-    <title>Reversi by Kathlyn</title>
+    <title>Home | Reversi-kicabrer</title>
 
-<style>
-  body {
-    background-color: rgb(190,150,50);
-  }
+    <style>
+      body {
+        background-color:rgb(190,150,50);
+        padding:16px;
+      }
 
-  .img-fluid {
-    width: 100%;
-  }
-</style>
+      .navbar {
+        padding:16px;
+      }
 
+      .reversi {
+        color: rgba(0,20,70,.75);
+      }
+
+      .reversi em {
+        color: rgb(180,20,70);
+      }
+
+      #parent {
+        position:absolute;
+        background-color:rgb(190,150,50);
+        width: 100%;
+        height:480px;
+      }
+
+      .line1 {
+        background-color: rgb(50,70,200);
+        position: absolute;
+        height: 400px;
+        width: 1px;
+        top: 0;
+        right: 30px;
+        bottom: 200px;
+        left: 0;
+        margin: auto;
+        transform: rotate(50deg);
+        z-index: 1;
+      }
+
+      .line2 {
+        background-color: rgb(75,100,0);
+        position: absolute;
+        height: 150px;
+        width: 1px;
+        top: 0;
+        right: 0;
+        bottom: 75px;
+        left: 0;
+        margin: auto;
+        transform: rotate(140deg);
+      }
+
+      .circle1 {
+        background-color: rgb(180,20,70);
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        border-radius:50%;
+        top: 0;
+        right: 0;
+        bottom: 400px;
+        left: 150px;
+        margin: auto;
+      }
+
+      .circle2 {
+        background-color: rgb(125,40,60);
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        border-radius:50%;
+        top: 15px;
+        right: 325px;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+      }
+
+      .block {
+        background-color: rgba(0,20,70,.75);
+        position: absolute;
+        height: 110px;
+        width: 25px;
+        top: 0;
+        right: 30px;
+        bottom: 40px;
+        left: 0;
+        margin: auto;
+      }
+
+      #button-row {
+        position:relative;
+        top:360px;
+      }
+
+      .btn {
+        margin:4px;
+      }
+    </style>
+
+    <script>
+      function submitForm(){
+        var username = $('#username').val();
+        window.location.href = 'lobby.html?username='+username;
+      }
+    </script>
   </head>
+
   <body>
-      <div class="container-fluid text-center">
-        <div class="row"> 
-          <div class="col">
-            <img class="img-fluid" src="assets/images/top-splash.png" alt="Reversi logo" />
-          </div>
+    <!-- Navbar -->
+    <nav class='navbar navbar-expand-sm navbar-light' style='background-color:rgb(190,150,50);'>
+      <a class='navbar-brand' href='#'><h2 class='reversi'>REVERSI<em>-kicabrer</em></h2></a>
+      <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
+        <span class='navbar-toggler-icon'></span>
+      </button>
+      <div class='collapse navbar-collapse' id='navbarNav'>
+        <div class='navbar-nav'>
+          <a class='nav-item nav-link active' href='#'>Home <span class='sr-only'>(current)</span></a>
+          <a class='nav-item nav-link' href='#' data-toggle='modal' data-target='#aboutModal'>About</a>
+          <a class='nav-item nav-link' href='#' data-toggle='modal' data-target='#usernameModal'>Lobby</a>
         </div>
-
-        <div class="row"> 
-          <div class="col-sm-3">
-            <a href="about.html" class="btn  btn-lg btn-light btn-block" role="button">About</a>
-          </div>
-          
-          <div class="col">
-            <a href="name.html" class="btn btn-lg btn-dark btn-block" role="button">Let's Play</a>
-          </div>
-          
-          <div class="col-sm-3">
-            <a href="https://en.wikipedia.org/wiki/Reversi#Rules" class="btn btn-lg btn-light btn-block" role="button">Rules</a>
-          </div>
-        </div>
-
       </div>
+    </nav>
+
+    <!-- About Modal -->
+    <div class='modal fade' id='aboutModal' tabindex='-1' role='dialog' aria-labelledby='About' aria-hidden='true'>
+      <div class='modal-dialog modal-lg modal-dialog-centered' role='document'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h2 class='modal-title'>About</h2>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+            </button>
+          </div>
+          <div class='modal-body'>
+            <p>This version of Reversi was designed and developed by Kathlyn Cabrera, with extensive help from instructor Prof. Donald J. Patterson, for the Informatics 285: Interactive Technology Studio course through UC Irvine's Master of Human-Computer Interaction & Design program.</p>
+            <h3>Get Started</h3>
+            <ol>
+              <li>Begin by clicking "Let's Play!"</li>
+              <li>Enter your preferred username and continue to Lobby.</li>
+              <li>Send messages to other players in the Lobby.</li>
+              <li>Invite another player to a game or accept an invitation from another player.</li>
+            </ol>
+            <p>Once you invite another player to a game and they accept your invitation, or once you accept another player's invitation, the game page will load and you can begin playing.</p>
+            <h3>Rules</h3>
+            <p>Reversi is a 2-player strategy game on an 8x8 board using 64 tokens with different colors on each side. The game starts with 4 tokens placed in the 4 central squares of the board, with 2 of each color facing up and the same-colored tokens on a diagonal with each other.</p>
+            <p>Players take turns placing tokens on the board with their assigned color facing up. Tokens in the opponent's color that are bounded by the current player's color and the token just placed in a straight line are flipped into the current player's color.</p>
+            <p>The game ends when there are no further legal moves. The winner is the player with the most tokens in their assigned color on the board at the end of the game.</p>
+            <p>For detailed rules, please refer to Wikipedia's <a href='https://en.wikipedia.org/wiki/Reversi#Rules'>Reversi rules</a> section.</p>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-dark' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Username Modal -->
+    <div class='modal fade' id='usernameModal' tabindex='-1' role='dialog' aria-labelledby='Username' aria-hidden='true'>
+      <div class='modal-dialog modal-dialog-centered' role='document'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h2 class='modal-title'>Enter your username</h2>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+            </button>
+          </div>
+          <form onsubmit='submitForm(); return false;'>
+            <div class='modal-body form-group'>
+              <label for='username' class='col-form-label sr-only'>Enter your username</label>
+              <input class='form-control' type='text' value='' id='username' placeholder='My username' autocomplete='off'/>
+            </div>
+            <div class='modal-footer'>
+                <button type='submit' class='btn btn-dark'>Continue to Lobby</button>
+                <button type='button' class='btn btn-light' data-dismiss='modal'>Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class='container-fluid text-center'>
+      <div class='row'>
+        <div class='col'>
+          <div id='parent'>
+            <!-- Design background -->
+            <div class='line1'></div>
+            <div class='line2'></div>
+            <div class='circle1'></div>
+            <div class='circle2'></div>
+            <div class='block'></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button to play -->
+      <div class='row' id='button-row'>
+       <div class='col text-center'>
+          <a href='#' class='btn btn-lg btn-light' role='button' data-toggle='modal' data-target='#usernameModal'>Let's Play!</a>
+       </div>
+      </div>
+
+      <div class='row' id='button-row'>
+       <div class='col text-center'>
+          <a href='#' class='btn btn-lg btn-dark' role='button' data-toggle='modal' data-target='#aboutModal'>About</a>
+       </div>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous'></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous'></script>
+
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous'></script>
   </body>
 </html>

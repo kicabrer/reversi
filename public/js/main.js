@@ -18,7 +18,7 @@ function getURLParameters(whichParam)
 var username = getURLParameters('username');
 if('undefined' == typeof username || !username)
 {
-	username = 'Anon_'+Math.random();
+	username = 'rando_'+Math.floor((1 + Math.random()) *0x10000).toString(16).substring(1);
 }
 
 var chat_room = getURLParameters('game_id');
@@ -63,17 +63,17 @@ socket.on('join_room_response', function(payload){
 
 		nodeA.addClass('w-100');
 
-		nodeB.addClass('col-9 text-right');
-		nodeB.append('<h3>'+payload.username+'</h3>');
+		nodeB.addClass('col-auto text-left');
+		nodeB.append('<h4>'+payload.username+'</h4>');
 
-		nodeC.addClass('col-3 text-left');
+		nodeC.addClass('col-auto text-left');
 		var buttonC = makeInviteButton(payload.socket_id);
 		nodeC.append(buttonC);
 
 		nodeA.hide();
 		nodeB.hide();
 		nodeC.hide();
-		$('#players').append(nodeA,nodeB,nodeC);
+		$('#players').append(nodeA,nodeC,nodeB);
 		nodeA.slideDown(400);
 		nodeB.slideDown(400);
 		nodeC.slideDown(400);
@@ -229,7 +229,7 @@ socket.on('send_message_response', function(payload){
 });
 
 function makeInviteButton(socket_id){
-	var newHTML = '<button type=\'button\' class=\'btn btn-light\'>Invite</button>';
+	var newHTML = '<button type=\'button\' class=\'btn btn-dark\'>Invite</button>';
 	var newNode = $(newHTML);
 	newNode.click(function(){
 		invite(socket_id);
@@ -247,7 +247,7 @@ function makeInvitedButton(socket_id){
 }
 
 function makePlayButton(socket_id){
-	var newHTML = '<button type=\'button\' class=\'btn btn-dark\'>Play</button>';
+	var newHTML = '<button type=\'button\' class=\'btn btn-light\'>Play</button>';
 	var newNode = $(newHTML);
 	newNode.click(function(){
 		game_start(socket_id);
@@ -269,7 +269,7 @@ $(function(){
 	console.log('*** Client Log Message: \'join_room\' payload: '+JSON.stringify(payload));
 	socket.emit('join_room',payload);
 
-	$('#quit').append('<a href="lobby.html?username='+username+'" class="btn btn-dark" role="button" aria-pressed="true">Quit</a>');
+	$('#quit').append('<a href="lobby.html?username='+username+'" class="btn btn-dark" role="button" aria-pressed="true">Back to Lobby</a>');
 });
 
 var old_board = [
@@ -318,8 +318,9 @@ socket.on('game_update',function(payload){
 		return;
 	}
 
-	$('#my_color').html('<h3 id="my_color">You are playing '+my_color+' tokens.</h3>');
-	$('#my_color').append('<h3>'+payload.game.whose_turn+'\'s turn. Elapsed time <span id="elapsed"></span></h3>');
+	$('#my_color').html('You are playing <strong>'+my_color+'</strong> tokens.');
+	$('#whose_turn').html('It is <strong>'+payload.game.whose_turn+'</strong>\'s turn.');
+	$('#timer').html('Time since last play: <strong><span id="elapsed"></span></strong>');
 
 	clearInterval(interval_timer);
 	interval_timer = setInterval(function(last_time){
@@ -438,6 +439,8 @@ socket.on('game_over',function(payload){
 	}
 
 	/* Jump to a new page */
-	$('#game_over').html('<h1>Game Over</h1><h2>Winner: '+payload.who_won+'</h2>');
+	$('#timer').hide()
+	$('#quit').remove('#quit')
+	$('#game_over').html('<h2>GAME OVER</h2><h2>WINNER: <strong>'+payload.who_won+'</strong></h2>');
 	$('#game_over').append('<a href="lobby.html?username='+username+'" class="btn btn-lg btn-light" role="button" aria-pressed="true">Return to Lobby</a>');
 });

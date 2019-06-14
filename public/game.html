@@ -14,32 +14,86 @@
   </head>
   
   <body>
+    <!-- Navbar -->
+    <nav class='navbar navbar-expand-sm navbar-light' style='background-color:rgb(190,150,50);'>
+      <a class='navbar-brand' href='index.html'><h2 class='reversi'>REVERSI<em>-kicabrer</em></h2></a>
+      <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
+        <span class='navbar-toggler-icon'></span>
+      </button>
+      <div class='collapse navbar-collapse' id='navbarNav'>
+        <div class='navbar-nav'>
+          <a class='nav-item nav-link' href='index.html'>Home</a>
+          <a class='nav-item nav-link' href='lobby.html'>Lobby</a>
+          <a class='nav-item nav-link' href='#' data-toggle='modal' data-target='#aboutModal'>About</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- About Modal -->
+    <div class='modal fade' id='aboutModal' tabindex='-1' role='dialog' aria-labelledby='About' aria-hidden='true'>
+      <div class='modal-dialog modal-lg modal-dialog-centered' role='document'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h2 class='modal-title'>About</h2>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+            </button>
+          </div>
+          <div class='modal-body'>
+            <p>This version of Reversi was designed and developed by Kathlyn Cabrera, with extensive help from instructor Prof. Donald J. Patterson, for the Informatics 285: Interactive Technology Studio course through UC Irvine's Master of Human-Computer Interaction & Design program.</p>
+            <h3>Get Started</h3>
+            <ol>
+              <li>Begin by clicking "Let's Play!"</li>
+              <li>Enter your preferred username and continue to Lobby.</li>
+              <li>Send messages to other players in the Lobby.</li>
+              <li>Invite another player to a game or accept an invitation from another player.</li>
+            </ol>
+            <p>Once you invite another player to a game and they accept your invitation, or once you accept another player's invitation, the game page will load and you can begin playing.</p>
+            <h3>Rules</h3>
+            <p>Reversi is a 2-player strategy game on an 8x8 board using 64 tokens with different colors on each side. The game starts with 4 tokens placed in the 4 central squares of the board, with 2 of each color facing up and the same-colored tokens on a diagonal with each other.</p>
+            <p>Players take turns placing tokens on the board with their assigned color facing up. Tokens in the opponent's color that are bounded by the current player's color and the token just placed in a straight line are flipped into the current player's color.</p>
+            <p>The game ends when there are no further legal moves. The winner is the player with the most tokens in their assigned color on the board at the end of the game.</p>
+            <p>For detailed rules, please refer to Wikipedia's <a href='https://en.wikipedia.org/wiki/Reversi#Rules'>Reversi rules</a> section.</p>
+          </div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-dark' data-dismiss='modal'>Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class='container-fluid text-center'>
-
-      <div class='row'> 
-        <div class='offset-2 col text-center'>
-          <h2 id='my_color'></h2>
-        </div>
-        <div class='col-2'>
-          <div id='quit'></div>
-        </div>
-      </div>
-
-      <div class='row'> 
-        <div class='col'>
-          <span class='align-middle' id='rubysum'></span>
-          <img src='assets/images/empty-to-ruby.gif' alt='ruby score'/>
-          <img src='assets/images/empty-to-denim.gif' alt='denim score'/>
-          <span class='align-middle' id='denimsum'></span>
-        </div>
-      </div>
-
-      <div class='row'> 
+      <div class='row game_over-row'> 
         <div class='col' id='game_over'>
         </div>
       </div>
 
-      <div class='row'> 
+      <div class='row text-left'>
+        <div class='col'>
+          <div id='quit'></div>
+          <div class='my_color-row'>
+            <h3>COLOR</h3>
+            <h4 id='my_color'></h4>
+            <h4 id='whose_turn'></h4>
+            <h5 id='timer'></h5>
+          </div>
+          <div class='score-row'>
+            <h3>SCORE</h3>
+            <h3><img src='assets/images/empty-to-ruby.gif' width='32px' alt='ruby score'/>
+            <span class='align-middle' id='rubysum'></span></h3>
+            <h3><img src='assets/images/empty-to-denim.gif' width='32px' alt='denim score'/>
+            <span class='align-middle' id='denimsum'></span></h3>
+          </div>
+          <div class='message-row'>
+            <h3>MESSAGES</h3>
+            <div id='messages'></div>
+            <form class='form-inline' onsubmit='send_message(); return false;'>
+                <label for='send_message_holder' class='col-form-label sr-only'>Enter your chat message</label>
+                <input class='form-control mx-auto w-100' type='text' value='' id='send_message_holder' placeholder='Enter your chat message' autocomplete='off'/>
+                <button type='submit' class='btn btn-dark'>Send</button>
+            </form>
+          </div>
+        </div>
         <div class='col'>
           <table id='game_board'>
             <tr>
@@ -124,20 +178,9 @@
             </tr>
           </table>
         </div>
-      </div>
 
-      <div class='row'>
-        <div class='col text-left'>
-          <h2>Messages</h2>
-          <div id='messages'></div>
-          <form class='form-inline' onsubmit='send_message(); return false;'>
-              <label for='send_message_holder' class='col-form-label sr-only'>Enter your chat message</label>
-              <input class='form-control mx-auto w-100' type='text' value='' id='send_message_holder' placeholder='Enter your chat message' autocomplete='off'/>
-              <button type='submit' class='btn btn-dark'>Send</button>
-          </form>
-        </div>
+        
       </div>
-
     </div>
 
     <!-- Optional JavaScript -->
